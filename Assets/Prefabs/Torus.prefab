@@ -14,21 +14,21 @@ GameObject:
   - component: {fileID: 6965216105697151012}
   - component: {fileID: 7231632075693114110}
   - component: {fileID: 3368045810924078741}
-  - component: {fileID: 1617176890960363354}
-  - component: {fileID: 8879687082455816471}
-  - component: {fileID: 5072179451422717103}
-  - component: {fileID: 5432128655061785505}
-  - component: {fileID: 5561180428343754340}
-  - component: {fileID: 5086457484372201922}
-  - component: {fileID: 2768277383312032939}
-  - component: {fileID: 845328874787789142}
-  - component: {fileID: 8443152319217967838}
-  - component: {fileID: 2402829465304935486}
-  - component: {fileID: 7691083707928342073}
-  - component: {fileID: 8783409918210246038}
+  - component: {fileID: 4619708038129830755}
+  - component: {fileID: -2157942368235251821}
+  - component: {fileID: 2561859597960843076}
+  - component: {fileID: 1374287665070825966}
+  - component: {fileID: 4131336170430078453}
+  - component: {fileID: -3192396986653304702}
+  - component: {fileID: -2581694208009211875}
+  - component: {fileID: -7239446211214396801}
+  - component: {fileID: -3955548334960762273}
+  - component: {fileID: 8508342843815636316}
+  - component: {fileID: 8651844034087265493}
+  - component: {fileID: 3796796841898718110}
   m_Layer: 0
   m_Name: Torus
-  m_TagString: Untagged
+  m_TagString: Tori
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,11 +110,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fa70957f6a87bd48967b86ab7ac437e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
   toriColor: {r: 0, g: 0, b: 0, a: 0}
+  moveSpeed: 5
+  rotationSpeed: 80
   maxX: 12
   minX: -10
   fallSpeed: 5
+  raycastDistance: 0.5
+  xOffset: 0.7
+  sameColorTorus: []
 --- !u!54 &7231632075693114110
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -153,26 +157,26 @@ MonoBehaviour:
     beta: 0.0560000017285347
     pca: 1
     mode: 0
-    maxNumVerticesPerCH: 219
-    minVolumePerCH: 0.0001
+    maxNumVerticesPerCH: 300
+    minVolumePerCH: 0.0013899999903514981
   m_colliders:
-  - {fileID: 1617176890960363354}
-  - {fileID: 8879687082455816471}
-  - {fileID: 5072179451422717103}
-  - {fileID: 5432128655061785505}
-  - {fileID: 5561180428343754340}
-  - {fileID: 5086457484372201922}
-  - {fileID: 2768277383312032939}
-  - {fileID: 845328874787789142}
-  - {fileID: 8443152319217967838}
-  - {fileID: 2402829465304935486}
-  - {fileID: 7691083707928342073}
-  - {fileID: 8783409918210246038}
+  - {fileID: 4619708038129830755}
+  - {fileID: -2157942368235251821}
+  - {fileID: 2561859597960843076}
+  - {fileID: 1374287665070825966}
+  - {fileID: 4131336170430078453}
+  - {fileID: -3192396986653304702}
+  - {fileID: -2581694208009211875}
+  - {fileID: -7239446211214396801}
+  - {fileID: -3955548334960762273}
+  - {fileID: 8508342843815636316}
+  - {fileID: 8651844034087265493}
+  - {fileID: 3796796841898718110}
   m_isTrigger: 0
   m_material: {fileID: 0}
   m_showColliders: 0
   m_colliderAsset: {fileID: 11400000, guid: 5fb49c02313c7744b9cff232045594c8, type: 2}
---- !u!64 &1617176890960363354
+--- !u!64 &4619708038129830755
 MeshCollider:
   m_ObjectHideFlags: 10
   m_CorrespondingSourceObject: {fileID: 0}
@@ -186,7 +190,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -4559397222237900939, guid: 5fb49c02313c7744b9cff232045594c8, type: 2}
---- !u!64 &8879687082455816471
+--- !u!64 &-2157942368235251821
 MeshCollider:
   m_ObjectHideFlags: 10
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,7 +204,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 173786106382461961, guid: 5fb49c02313c7744b9cff232045594c8, type: 2}
---- !u!64 &5072179451422717103
+--- !u!64 &2561859597960843076
 MeshCollider:
   m_ObjectHideFlags: 10
   m_CorrespondingSourceObject: {fileID: 0}
@@ -214,7 +218,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 8534300047485231177, guid: 5fb49c02313c7744b9cff232045594c8, type: 2}
---- !u!64 &5432128655061785505
+--- !u!64 &1374287665070825966
 MeshCollider:
   m_ObjectHideFlags: 10
   m_CorrespondingSourceObject: {fileID: 0}
@@ -228,7 +232,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -4574295669711879581, guid: 5fb49c02313c7744b9cff232045594c8, type: 2}
---- !u!64 &5561180428343754340
+--- !u!64 &4131336170430078453
 MeshCollider:
   m_ObjectHideFlags: 10
   m_CorrespondingSourceObject: {fileID: 0}
@@ -242,7 +246,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -7061685253850575031, guid: 5fb49c02313c7744b9cff232045594c8, type: 2}
---- !u!64 &5086457484372201922
+--- !u!64 &-3192396986653304702
 MeshCollider:
   m_ObjectHideFlags: 10
   m_CorrespondingSourceObject: {fileID: 0}
@@ -256,7 +260,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 2959574039210569170, guid: 5fb49c02313c7744b9cff232045594c8, type: 2}
---- !u!64 &2768277383312032939
+--- !u!64 &-2581694208009211875
 MeshCollider:
   m_ObjectHideFlags: 10
   m_CorrespondingSourceObject: {fileID: 0}
@@ -270,7 +274,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 6124992497581294930, guid: 5fb49c02313c7744b9cff232045594c8, type: 2}
---- !u!64 &845328874787789142
+--- !u!64 &-7239446211214396801
 MeshCollider:
   m_ObjectHideFlags: 10
   m_CorrespondingSourceObject: {fileID: 0}
@@ -284,7 +288,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 1329716057052690871, guid: 5fb49c02313c7744b9cff232045594c8, type: 2}
---- !u!64 &8443152319217967838
+--- !u!64 &-3955548334960762273
 MeshCollider:
   m_ObjectHideFlags: 10
   m_CorrespondingSourceObject: {fileID: 0}
@@ -298,7 +302,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 1337678276183236207, guid: 5fb49c02313c7744b9cff232045594c8, type: 2}
---- !u!64 &2402829465304935486
+--- !u!64 &8508342843815636316
 MeshCollider:
   m_ObjectHideFlags: 10
   m_CorrespondingSourceObject: {fileID: 0}
@@ -312,7 +316,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 6711222529635137811, guid: 5fb49c02313c7744b9cff232045594c8, type: 2}
---- !u!64 &7691083707928342073
+--- !u!64 &8651844034087265493
 MeshCollider:
   m_ObjectHideFlags: 10
   m_CorrespondingSourceObject: {fileID: 0}
@@ -326,7 +330,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 2143139066148566388, guid: 5fb49c02313c7744b9cff232045594c8, type: 2}
---- !u!64 &8783409918210246038
+--- !u!64 &3796796841898718110
 MeshCollider:
   m_ObjectHideFlags: 10
   m_CorrespondingSourceObject: {fileID: 0}
