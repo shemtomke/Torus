@@ -21,4 +21,9 @@ public class TorusManager : MonoBehaviour
         int randomColor = Random.Range(0, colors.Count);
         toriClone.GetComponent<Renderer>().material.color = colors[randomColor];
     }
+    void Match()
+    {
+        // Destroy Matching Donuts -> LOL!
+
+    }
 }

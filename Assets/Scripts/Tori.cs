@@ -63,6 +63,7 @@ public class Tori : MonoBehaviour
             isFalling = true;
             isMove = false;
             rb.useGravity = true;
+            Invoke("NewTori", 1);
         }
 
         // If falling, move the object downwards
@@ -74,6 +75,8 @@ public class Tori : MonoBehaviour
             transform.Translate(Vector3.down * fallSpeed * Time.deltaTime);
         }
     }
-    // Reached Bottom then Instantiate a new tori
-
+    void NewTori()
+    {
+        torusManager.InstantiateTori();
+    }
 }
