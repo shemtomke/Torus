@@ -8,23 +8,32 @@ public class Tori : MonoBehaviour
 {
     public float speed;
     public Color toriColor;
-    public float maxX, minX;
+    public float maxX, minX, fallSpeed;
     private int direction = 1; // 1 for right, -1 for left
+    bool isMove = true, isFalling = false;
 
+    Rigidbody rb;
     TorusManager torusManager;
     private void Start()
     {
         torusManager = FindObjectOfType<TorusManager>();
-    }
+        rb = GetComponent<Rigidbody>();
 
-    private void Update()
+        rb.useGravity = false;
+        //rb.WakeUp();
+    }
+    private void FixedUpdate()
     {
         Move();
+        Fall();
         Rotate();
     }
     // Move left and right - move from max x and min x
     void Move()
     {
+        if (!isMove)
+            return;
+
         // Calculate the new position based on the speed and direction
         float newPosition = transform.position.x + direction * speed * Time.deltaTime;
 
@@ -39,6 +48,8 @@ public class Tori : MonoBehaviour
     // Rotate
     void Rotate()
     {
+        if (!isMove)
+            return;
 
     }
     void RandomColorChange()
@@ -47,9 +58,22 @@ public class Tori : MonoBehaviour
     }
     void Fall()
     {
-        if(Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && !isFalling)
         {
+            isFalling = true;
+            isMove = false;
+            rb.useGravity = true;
+        }
 
+        // If falling, move the object downwards
+        if (isFalling)
+        {
+            Debug.Log("Fall!");
+
+            // Move the Torus downward
+            transform.Translate(Vector3.down * fallSpeed * Time.deltaTime);
         }
     }
+    // Reached Bottom then Instantiate a new tori
+
 }
