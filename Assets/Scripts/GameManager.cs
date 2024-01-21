@@ -6,9 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-
-    AudioManager audioManager;
-
     bool Play= true;
     public bool isGameOver = false;
     public bool isStart = false;
@@ -19,10 +16,11 @@ public class GameManager : MonoBehaviour
     public GameObject mainMenuPanel;
     public GameObject pauseMenuPanel;
 
+    AudioManager audioManager;
     private void Awake() 
     {
         Time.timeScale=1;
-        audioManager= FindObjectOfType<AudioManager>().GetComponent<AudioManager>();
+        audioManager= FindObjectOfType<AudioManager>();
         
     }
 
@@ -79,10 +77,11 @@ public class GameManager : MonoBehaviour
         if(isGameOver)
         {
             if(Play)
-        {
-            audioManager.Play("GameOver");
-            Play = false;
-        }
+            {
+                audioManager.Play("GameOver");
+                Play = false;
+            }
+
             Time.timeScale=0;
             gameOverPanel.SetActive(true);
             gamePlayPanel.SetActive(false);

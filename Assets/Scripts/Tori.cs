@@ -32,7 +32,7 @@ public class Tori : MonoBehaviour
     {
         torusManager = FindObjectOfType<TorusManager>();
         gameManager = FindObjectOfType<GameManager>();
-        audioManager= FindObjectOfType<AudioManager>().GetComponent<AudioManager>();
+        audioManager = FindObjectOfType<AudioManager>();
         rb = GetComponent<Rigidbody>();
 
         rb.useGravity = false;
@@ -48,9 +48,7 @@ public class Tori : MonoBehaviour
         Move();
         RotateRight();
         Fall();
-        Rotate(); 
-
-
+        Rotate();
     }
     // Move left and right - move from max x and min x
     void Move()
