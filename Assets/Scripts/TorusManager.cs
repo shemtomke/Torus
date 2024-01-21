@@ -17,6 +17,7 @@ public class TorusManager : MonoBehaviour
     public float maxMoveSpeed = 10f; // Set your maximum move speed here
     public float currentMoveSpeed; // Variable to track the current move speed
     public float incrementSpeed = 0.5f;
+    public float particleLifetime = 2f;
 
     int count = 0;
 
@@ -73,18 +74,28 @@ public class TorusManager : MonoBehaviour
         {
             if (colourItem.matchingObjects.Count > 1)
             {
-                for (int i = 0; i < colourItem.matchingObjects.Count; i++)
+                foreach (var matchingObject in colourItem.matchingObjects)
                 {
                     AddMatchPoint();
-                    particle.transform.position = colourItem.matchingObjects[i].transform.position;
-                    Destroy(colourItem.matchingObjects[i]);
-                    // Play the particle system
-                    var mainModule = particle.main;
+
+                    // Instantiate the particle system at the position of the matching object
+                    ParticleSystem particleInstance = Instantiate(particle, matchingObject.transform.position, Quaternion.identity);
+
+                    // Set the particle system color
+                    var mainModule = particleInstance.main;
                     mainModule.startColor = colourItem.color;
-                    particle.Play();
+
+                    // Play the particle system
+                    particleInstance.Play();
+
+                    // Destroy the matching object
+                    Destroy(matchingObject);
+
+                    // Destroy the particle system after a certain duration
+                    Destroy(particleInstance.gameObject, particleLifetime);
                 }
+
                 colourItem.matchingObjects.Clear();
-                particle.Stop();
             }
         }
     }
