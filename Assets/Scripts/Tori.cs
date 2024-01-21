@@ -36,6 +36,9 @@ public class Tori : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         rb.useGravity = false;
+
+        // Set the initial move speed
+        moveSpeed = torusManager.initialMoveSpeed;
     }
     private void FixedUpdate()
     {

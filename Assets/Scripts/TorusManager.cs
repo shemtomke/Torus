@@ -12,6 +12,9 @@ public class TorusManager : MonoBehaviour
     public Transform pos;
 
     public float colourChangeTime;
+    public float initialMoveSpeed = 5f; // Set your initial move speed here
+    public float maxMoveSpeed = 10f; // Set your maximum move speed here
+    private float currentMoveSpeed; // Variable to track the current move speed
 
     int count = 0;
 
@@ -22,6 +25,7 @@ public class TorusManager : MonoBehaviour
         scoreManager = FindObjectOfType<ScoreManager>();
         gameManager = FindObjectOfType<GameManager>();
 
+        currentMoveSpeed = initialMoveSpeed;
         InstantiateTori();
     }
     private void Update()
@@ -39,6 +43,13 @@ public class TorusManager : MonoBehaviour
         //Random Color
         int randomColor = UnityEngine.Random.Range(0, colorItems.Count);
         toriClone.GetComponent<Tori>().toriColor = colorItems[randomColor].color;
+
+        // Increase the move speed
+        currentMoveSpeed = Mathf.Min(currentMoveSpeed + 1f, maxMoveSpeed);
+
+        // Set the move speed for the instantiated Tori
+        toriClone.GetComponent<Tori>().moveSpeed = currentMoveSpeed;
+
         count++;
     }
     public void AddMatchPoint()
