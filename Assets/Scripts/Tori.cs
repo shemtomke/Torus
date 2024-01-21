@@ -13,6 +13,7 @@ public class Tori : MonoBehaviour
     AudioManager audioManager;
     
     private int direction = 1; // 1 for right, -1 for left
+    int randomRot;
 
     bool isMove = true, isFalling = false, isInsidePole = false;
     bool isGetInput;
@@ -20,10 +21,6 @@ public class Tori : MonoBehaviour
 
     public float moveSpeed, rotationSpeed;
     public float maxX, minX, fallSpeed;
-    public float raycastDistance = 5f;
-    public float xOffset = 0.5f; // Offset in the x-axis
-
-    public List<GameObject> sameColorTorus = new List<GameObject>();
 
     Rigidbody rb;
     TorusManager torusManager;
@@ -37,8 +34,9 @@ public class Tori : MonoBehaviour
 
         rb.useGravity = false;
 
-        // Set the initial move speed
-        moveSpeed = torusManager.initialMoveSpeed;
+        MoveSpeed();
+
+        //InvokeRepeating("RandomColorChange", Random.Range(0, 2), Random.Range(0, 2));
     }
     private void FixedUpdate()
     {
@@ -49,7 +47,6 @@ public class Tori : MonoBehaviour
             return;
         
         Move();
-        RotateRight();
         Fall();
         Rotate();
     }
@@ -76,18 +73,54 @@ public class Tori : MonoBehaviour
         if (!isMove)
             return;
 
-        
-
+        switch (randomRot)
+        {
+            case 0:
+                transform.Rotate(Vector3.back * rotationSpeed * Time.deltaTime);
+                break;
+            case 1:
+                transform.Rotate(Vector3.left * rotationSpeed * Time.deltaTime);
+                break;
+            case 2:
+                transform.Rotate(Vector3.right * rotationSpeed * Time.deltaTime);
+                break;
+            case 3:
+                transform.Rotate(Vector3.one * rotationSpeed * Time.deltaTime);
+                break;
+            case 4:
+                transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
+                break;
+            case 5:
+                transform.Rotate(Vector3.zero * rotationSpeed * Time.deltaTime);
+                break;
+        }
     }
-    void RotateRight()
+    void MoveSpeed()
     {
-        if (!isMove)
-            return;
-        
+        // Set the initial move speed
+        moveSpeed = torusManager.currentMoveSpeed;
+
+        if (moveSpeed > 5)
+        {
+            randomRot = 5; //normal
+        }
+        else if (moveSpeed > 8)
+        {
+            randomRot = Random.Range(0, 2);
+        }
+        else if(moveSpeed > 10)
+        {
+            randomRot = Random.Range(0, 4);
+        }
+        else if(moveSpeed > 15)
+        {
+            randomRot = Random.Range(0, 5);
+        }
     }
     void RandomColorChange()
     {
-        
+        if(!isMove) return;
+        StartCoroutine(torusManager.RandomColorChange(this));
     }
     void Fall()
     {
@@ -113,20 +146,24 @@ public class Tori : MonoBehaviour
     {
         torusManager.InstantiateTori();
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
-        
         if (collision.gameObject.CompareTag("Pole"))
         {
             isInsidePole = true;
+            Debug.Log("Is inside the pole!");
+            
         }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
         if (collision.gameObject.CompareTag("Tori"))
         {
             if(Play)
-        {
-            audioManager.Play("Bounce");
-            Play = false;
-        }
+            {
+                audioManager.Play("Bounce");
+                Play = false;
+            }
             
             var obj = collision.gameObject;
             var objTori = collision.gameObject.GetComponent<Tori>();
@@ -147,6 +184,7 @@ public class Tori : MonoBehaviour
             }
 
             OutsidePole();
+            FillPole();
         }
         if (collision.gameObject.CompareTag("Ground"))
         {
@@ -159,6 +197,13 @@ public class Tori : MonoBehaviour
             return;
 
         if(!isInsidePole)
+        {
+            gameManager.isGameOver = true;
+        }
+    }
+    void FillPole()
+    {
+        if (isFalling && transform.position.y > 9.4f)
         {
             gameManager.isGameOver = true;
         }

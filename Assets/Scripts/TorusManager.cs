@@ -7,14 +7,16 @@ using UnityEngine.UI;
 public class TorusManager : MonoBehaviour
 {
     public GameObject tori;
+    public ParticleSystem particle;
+
     [NonReorderable]
     public List<ColorItems> colorItems;
-    public Transform pos;
+    Vector3 pos;
 
     public float colourChangeTime;
-    public float initialMoveSpeed = 5f; // Set your initial move speed here
     public float maxMoveSpeed = 10f; // Set your maximum move speed here
-    private float currentMoveSpeed; // Variable to track the current move speed
+    public float currentMoveSpeed; // Variable to track the current move speed
+    public float incrementSpeed = 0.5f;
 
     int count = 0;
 
@@ -25,7 +27,8 @@ public class TorusManager : MonoBehaviour
         scoreManager = FindObjectOfType<ScoreManager>();
         gameManager = FindObjectOfType<GameManager>();
 
-        currentMoveSpeed = initialMoveSpeed;
+        particle.Stop();
+
         InstantiateTori();
     }
     private void Update()
@@ -38,14 +41,15 @@ public class TorusManager : MonoBehaviour
         if (gameManager.isGameOver)
             return;
 
-        GameObject toriClone = Instantiate(tori, pos.position, Quaternion.identity);
+        pos = new Vector3(UnityEngine.Random.Range(-10, 14), 13.05f, 0);
+        GameObject toriClone = Instantiate(tori, pos, Quaternion.identity);
         toriClone.name = "Tori " + count;
         //Random Color
         int randomColor = UnityEngine.Random.Range(0, colorItems.Count);
         toriClone.GetComponent<Tori>().toriColor = colorItems[randomColor].color;
 
         // Increase the move speed
-        currentMoveSpeed = Mathf.Min(currentMoveSpeed + 1f, maxMoveSpeed);
+        currentMoveSpeed = Mathf.Min(currentMoveSpeed + incrementSpeed, maxMoveSpeed);
 
         // Set the move speed for the instantiated Tori
         toriClone.GetComponent<Tori>().moveSpeed = currentMoveSpeed;
@@ -56,7 +60,7 @@ public class TorusManager : MonoBehaviour
     {
         scoreManager.score++;
     }
-    IEnumerator RandomColorChange(Color color, Tori tori)
+    public IEnumerator RandomColorChange(Tori tori)
     {
         yield return new WaitForSeconds(colourChangeTime);
 
@@ -67,14 +71,20 @@ public class TorusManager : MonoBehaviour
     {
         foreach (var colourItem in colorItems)
         {
-            if(colourItem.matchingObjects.Count > 1)
+            if (colourItem.matchingObjects.Count > 1)
             {
                 for (int i = 0; i < colourItem.matchingObjects.Count; i++)
                 {
                     AddMatchPoint();
+                    particle.transform.position = colourItem.matchingObjects[i].transform.position;
                     Destroy(colourItem.matchingObjects[i]);
+                    // Play the particle system
+                    var mainModule = particle.main;
+                    mainModule.startColor = colourItem.color;
+                    particle.Play();
                 }
                 colourItem.matchingObjects.Clear();
+                particle.Stop();
             }
         }
     }

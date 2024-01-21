@@ -113,12 +113,9 @@ MonoBehaviour:
   toriColor: {r: 0, g: 0, b: 0, a: 0}
   moveSpeed: 5
   rotationSpeed: 80
-  maxX: 12
+  maxX: 14
   minX: -10
   fallSpeed: 5
-  raycastDistance: 0.5
-  xOffset: 0.7
-  sameColorTorus: []
 --- !u!54 &7231632075693114110
 Rigidbody:
   m_ObjectHideFlags: 0

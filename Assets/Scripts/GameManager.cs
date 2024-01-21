@@ -68,12 +68,10 @@ public class GameManager : MonoBehaviour
         Time.timeScale=1;
         gamePlayPanel.SetActive(true);
         pauseMenuPanel.SetActive(false);
-
     }
 
     void GameOver()
     {
-        
         if(isGameOver)
         {
             if(Play)
