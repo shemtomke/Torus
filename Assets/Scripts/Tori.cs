@@ -5,14 +5,18 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.EventSystems;
 
 public class Tori : MonoBehaviour
 {
     public Color toriColor;
+    AudioManager audioManager;
     
     private int direction = 1; // 1 for right, -1 for left
 
     bool isMove = true, isFalling = false, isInsidePole = false;
+    bool isGetInput;
+    bool Play= true;
 
     public float moveSpeed, rotationSpeed;
     public float maxX, minX, fallSpeed;
@@ -28,18 +32,25 @@ public class Tori : MonoBehaviour
     {
         torusManager = FindObjectOfType<TorusManager>();
         gameManager = FindObjectOfType<GameManager>();
+        audioManager= FindObjectOfType<AudioManager>().GetComponent<AudioManager>();
         rb = GetComponent<Rigidbody>();
 
         rb.useGravity = false;
     }
     private void FixedUpdate()
     {
+        isGetInput= !EventSystem.current.IsPointerOverGameObject();
         this.GetComponent<Renderer>().material.color = toriColor;
 
+        if(!gameManager.isStart)
+            return;
+        
         Move();
         RotateRight();
         Fall();
         Rotate(); 
+
+
     }
     // Move left and right - move from max x and min x
     void Move()
@@ -64,6 +75,8 @@ public class Tori : MonoBehaviour
         if (!isMove)
             return;
 
+        
+
     }
     void RotateRight()
     {
@@ -80,7 +93,7 @@ public class Tori : MonoBehaviour
         if (gameManager.isGameOver)
             return;
 
-        if (Input.GetMouseButton(0) && !isFalling)
+        if (Input.GetMouseButton(0) && !isFalling && isGetInput)
         {
             isFalling = true;
             isMove = false;
@@ -101,12 +114,19 @@ public class Tori : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
+        
         if (collision.gameObject.CompareTag("Pole"))
         {
             isInsidePole = true;
         }
         if (collision.gameObject.CompareTag("Tori"))
         {
+            if(Play)
+        {
+            audioManager.Play("Bounce");
+            Play = false;
+        }
+            
             var obj = collision.gameObject;
             var objTori = collision.gameObject.GetComponent<Tori>();
 
@@ -143,3 +163,4 @@ public class Tori : MonoBehaviour
         }
     }
 }
+
