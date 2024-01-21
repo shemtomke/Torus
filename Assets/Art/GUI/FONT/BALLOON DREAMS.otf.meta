@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: e1fb75249788bb740af9616a8d75a978
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - BALLOON DREAMS
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: abc1c2e576299874c8cc5773673e7439, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
